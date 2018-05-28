@@ -25,15 +25,11 @@ func TestBatchConvert(t *testing.T) {
 
 	convertErr := BatchConvert(&info)
 	if convertErr != nil {
-		t.Error(convertErr)
 		t.Error("ファイルの変換に失敗しました")
 	}
 
-	convertedFiles, convertedErr := filepath.Glob(info.ToDir + "/*." + info.ToExt)
-	if convertedErr != nil {
-		t.Error(convertedErr)
+	if _, fileErr := os.Stat("../testdata/to/icon_business_man01.jpg"); os.IsNotExist(fileErr) {
+		t.Error("変換後のファイルが見つかりません")
 	}
-	if len(convertedFiles) < 1 {
-		t.Error("変換後のファイルがありません")
-	}
+	_ = os.Remove("../testdata/to/icon_business_man01.jpg")
 }
